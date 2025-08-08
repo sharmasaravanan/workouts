@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Workout Routine</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .poster {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .day-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .day-header {
+            padding: 20px 25px;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: white;
+            position: relative;
+        }
+        
+        .monday { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
+        .tuesday { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .wednesday { background: linear-gradient(135deg, #45b7d1, #96c93d); }
+        .thursday { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .friday { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .saturday { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .sunday { background: linear-gradient(135deg, #fa709a, #fee140); }
+        
+        .workout-section {
+            padding: 0;
+        }
+        
+        .section-title {
+            background: rgba(0, 0, 0, 0.03);
+            padding: 15px 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2d3748;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 0;
+        }
+        
+        .exercise-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            background: rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #4a5568;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .exercise-header div {
+            padding: 12px 15px;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .exercise-header div:last-child {
+            border-right: none;
+        }
+        
+        .exercise-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .exercise-row:last-child {
+            border-bottom: none;
+        }
+        
+        .exercise-row div {
+            padding: 15px;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        
+        .exercise-row div:last-child {
+            border-right: none;
+        }
+        
+        .exercise-name {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .sets-reps {
+            font-weight: 600;
+            color: #4299e1;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .rest-time {
+            font-weight: 500;
+            color: #38a169;
+        }
+        
+        .cardio-section {
+            background: rgba(74, 158, 255, 0.05);
+        }
+        
+        .hiit-section {
+            background: rgba(255, 107, 107, 0.05);
+        }
+        
+        .stability-section {
+            background: rgba(129, 140, 248, 0.05);
+        }
+        
+        .crossfit-section {
+            background: rgba(245, 101, 101, 0.05);
+        }
+        
+        .circuit-note {
+            padding: 15px 25px;
+            font-style: italic;
+            color: #666;
+            background: rgba(0, 0, 0, 0.02);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .rest-day {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .poster {
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .exercise-grid,
+            .exercise-header,
+            .exercise-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .exercise-row div {
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                padding: 10px 15px;
+            }
+            
+            .exercise-row div:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <div class="header">
+            <h1>Weekly Workout Routine</h1>
+            <p>Your Complete 7-Day Training Program</p>
+        </div>
+        
+        <div class="content">
+            <!-- Monday -->
+            <div class="day-card">
+                <div class="day-header monday">MONDAY - PUSH #1</div>
+                <div class="workout-section">
+                    <div class="section-title">Strength Training</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Reps</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Incline Barbell Bench Press</div>
+                        <div class="sets-reps">4 × 6–8</div>
+                        <div class="rest-time">2 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Sitting DB Shoulder Press</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Flat DB Press</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Lean-Away Lateral Raise</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Seated Decline Cable Fly (Supination)</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Incline DB Overhead Extension</div>
+                        <div class="sets-reps">3 × 10–12</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Manual Dips</div>
+                        <div class="sets-reps">2 × AMRAP</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                </div>
+                <div class="workout-section cardio-section">
+                    <div class="section-title">Cardio</div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Incline Walk (6–8% incline)</div>
+                        <div class="sets-reps">20 min</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tuesday -->
+            <div class="day-card">
+                <div class="day-header tuesday">TUESDAY - PULL #1</div>
+                <div class="workout-section">
+                    <div class="section-title">Strength Training</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Reps</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Pull-Ups</div>
+                        <div class="sets-reps">4 × AMRAP</div>
+                        <div class="rest-time">2 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Barbell Row</div>
+                        <div class="sets-reps">4 × 6–8</div>
+                        <div class="rest-time">2 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Reverse Grip Lat Pulldown</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Chest-Supported Rear Delt Row</div>
+                        <div class="sets-reps">3 × 12</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Narrow Grip Barbell Curl</div>
+                        <div class="sets-reps">3 × 10–12</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Kneeling Face Pull</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Lying Face Pull</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                </div>
+                <div class="workout-section cardio-section">
+                    <div class="section-title">Cardio</div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Treadmill Intervals (2 min walk + 3 min run × 3)</div>
+                        <div class="sets-reps">~15 min</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wednesday -->
+            <div class="day-card">
+                <div class="day-header wednesday">WEDNESDAY - LEGS #1</div>
+                <div class="workout-section">
+                    <div class="section-title">Strength Training</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Reps</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Back Squat</div>
+                        <div class="sets-reps">4 × 5–6</div>
+                        <div class="rest-time">2–3 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Romanian Deadlift</div>
+                        <div class="sets-reps">4 × 6–8</div>
+                        <div class="rest-time">2 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Walking Lunges</div>
+                        <div class="sets-reps">3 × 8/leg</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Glute Ham Raise</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Prone Leg Curl</div>
+                        <div class="sets-reps">3 × 10–12</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thursday -->
+            <div class="day-card">
+                <div class="day-header thursday">THURSDAY - STABILITY</div>
+                <div class="workout-section stability-section">
+                    <div class="section-title">Stability Training</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Reps</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Copenhagen Plank</div>
+                        <div class="sets-reps">2 × 20–30 sec/side</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Airex Pad Single-Leg Hold</div>
+                        <div class="sets-reps">2 × 30–40 sec/leg</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Half-Kneeling Single-Arm Overhead Press</div>
+                        <div class="sets-reps">2 × 10/arm</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Pallof Press</div>
+                        <div class="sets-reps">2 × 10–12/side</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Bird Dogs</div>
+                        <div class="sets-reps">2 × 8/side</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Dead Bug</div>
+                        <div class="sets-reps">2 × 8–10/side</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Single-Arm Farmer's Carry</div>
+                        <div class="sets-reps">2 × 20–30m/arm</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                </div>
+                <div class="workout-section cardio-section">
+                    <div class="section-title">Cardio</div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Zone 2 walk/cycle</div>
+                        <div class="sets-reps">30–40 min</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friday -->
+            <div class="day-card">
+                <div class="day-header friday">FRIDAY - PUSH #2</div>
+                <div class="workout-section">
+                    <div class="section-title">Strength Training</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Reps</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Flat Barbell Bench Press</div>
+                        <div class="sets-reps">4 × 5–6</div>
+                        <div class="rest-time">2–3 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Seated Barbell Shoulder Press</div>
+                        <div class="sets-reps">3 × 6–8</div>
+                        <div class="rest-time">2 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Incline DB Bench Press</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">DB Side Lateral Raise</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Cable Chest Fly</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Cable Rope Triceps Pushdown</div>
+                        <div class="sets-reps">3 × 10–12</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                </div>
+                <div class="workout-section cardio-section">
+                    <div class="section-title">Cardio</div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Incline Walk</div>
+                        <div class="sets-reps">20 min</div>
+                        <div class="rest-time">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saturday -->
+            <div class="day-card">
+                <div class="day-header saturday">SATURDAY - PULL #2</div>
+                <div class="workout-section">
+                    <div class="section-title">Strength Training</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Reps</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Wide Grip Lat Pulldown</div>
+                        <div class="sets-reps">4 × 8–10</div>
+                        <div class="rest-time">2 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">T-Bar Row</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Rear Delt Fly</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Low Cable Row</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Cable EZ Curl</div>
+                        <div class="sets-reps">3 × 10–12</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">DB Shrugs</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Incline Seated DB Curl</div>
+                        <div class="sets-reps">3 × 10–12</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                </div>
+                <div class="workout-section hiit-section">
+                    <div class="section-title">HIIT Circuit</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Time</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Burpees</div>
+                        <div class="sets-reps">3 × 30s</div>
+                        <div class="rest-time">10 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Jump Squats</div>
+                        <div class="sets-reps">3 × 30s</div>
+                        <div class="rest-time">10 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Mountain Climbers</div>
+                        <div class="sets-reps">3 × 30s</div>
+                        <div class="rest-time">10 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">High Knees</div>
+                        <div class="sets-reps">3 × 30s</div>
+                        <div class="rest-time">10 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Push-Ups</div>
+                        <div class="sets-reps">3 × 30s</div>
+                        <div class="rest-time">10 sec</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sunday -->
+            <div class="day-card">
+                <div class="day-header sunday">SUNDAY - LEGS #2</div>
+                <div class="workout-section">
+                    <div class="section-title">Strength Training</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Reps</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Front Squat</div>
+                        <div class="sets-reps">4 × 5–6</div>
+                        <div class="rest-time">2–3 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Leg Press</div>
+                        <div class="sets-reps">3 × 8–10</div>
+                        <div class="rest-time">2 min</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Leg Extension</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Calf Raises</div>
+                        <div class="sets-reps">3 × 12–15</div>
+                        <div class="rest-time">60 sec</div>
+                    </div>
+                </div>
+                <div class="workout-section crossfit-section">
+                    <div class="section-title">CrossFit Circuit</div>
+                    <div class="exercise-header">
+                        <div>Exercise</div>
+                        <div>Sets × Time/Distance</div>
+                        <div>Rest</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Battle Ropes – Alternating Waves</div>
+                        <div class="sets-reps">3 × 30 sec</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Tire Sledge Hammer Slams</div>
+                        <div class="sets-reps">3 × 30 sec</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Sled Push (loaded)</div>
+                        <div class="sets-reps">3 × 50 m</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                    <div class="exercise-row">
+                        <div class="exercise-name">Farmer's Carry (heavy)</div>
+                        <div class="sets-reps">3 × 50 m</div>
+                        <div class="rest-time">90 sec</div>
+                    </div>
+                </div>
+                <div class="workout-section stability-section">
+                    <div class="section-title">Stability (Optional)</div>
+                    <div class="circuit-note">Repeat Thursday session</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
